@@ -1,0 +1,14 @@
+<< !HEADER_COMMENT : [This is a language I temporarily made for my db to be able to handle these files and the assets required when running this program on my side. This means this file when downloaded
+is not necessary and is just a plain TXT file if you do not have the compiler and drivers to run it] : HEADER_COMMENT_END >>
+
+!<<< :bunt, "0.2.0", "8xFlikC6r4Oo4/CPaQKhI92wkBAW1NfNKNSc", [:mix], [], "hexpm", "3iHuyZ" >>>! 
+<<<
+
+[file]
+
+obj.Container() -> {
+  Dockerver.call();
+}
+
+>>>
+!<<<:certifi, "2.5.3", "70bdd7e7188c804f3a30ee0e7c99655bc35d8ac41c23e12325f36ab449b70651", [:rebar3], [{:parse_trans, "~>3.3", [hex: :parse_trans, repo: "hexpm", optional: false]}], "hexpm", "ed516acb3929b101208a9d700062d520f3953da3b6b918d866106ffa980e1c10">>>!
