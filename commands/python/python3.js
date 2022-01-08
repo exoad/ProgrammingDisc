@@ -20,8 +20,8 @@ module.exports = {
         codeStr.includes("https") ||
         codeStr.includes("://")
       ) {
-        message.channel.send("Operation Terminated.").then(m => {
-          bot.channels.cache.get(content.java_log).send("**User:**")
+        message.channel.send("Operation Terminated.").then((m) => {
+          bot.channels.cache.get(content.java_log).send("**User:**");
         });
       }
       if (codeStr.substring(0, 3) === "```" && codeStr.slice(-3) == "```") {
@@ -35,7 +35,7 @@ module.exports = {
           .addField("guild", message.guild.id)
           .addField("chnl", message.channel.id)
           .setTimestamp();
-        bot.channels.cache.get(content.cpp_log).send(embed);
+        bot.channels.cache.get(content.cpp_log).send({ embeds: [embed] });
       }
       if (
         code == "help" ||
@@ -69,7 +69,7 @@ module.exports = {
             "Additional Notes",
             "1. You may use ``` for code syntax in Discord\n2. This is Python3 and you must follow all Python3 conventions\n3. Do not write code to cause malicious intents"
           );
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
       } else {
         var options = { stats: true };
         compiler.init(options);
@@ -95,7 +95,7 @@ module.exports = {
               .setFooter(
                 "This action has been auto logged and is being automatically repaired if server-sided"
               );
-            message.channel.send(embed);
+            message.channel.send({ embeds: [embed] });
             const embed23 = new MessageEmbed()
               .setTitle(message.author.id)
               .addField("ERR", "```\n" + data.error + "```")
@@ -106,7 +106,9 @@ module.exports = {
               )
               .setColor("RED")
               .setTimestamp();
-            bot.channels.cache.get(content.java_log).send(embed23);
+            bot.channels.cache
+              .get(content.java_log)
+              .send({ embeds: [embed23] });
           } else {
             if (!data.output || data.output == undefined)
               checker = "Output returned Undefined args[0]@2$";
@@ -121,7 +123,7 @@ module.exports = {
               .addField("OUTPUT (stdout):", "```\n" + checker + "```")
               .addField("Tags", "`no_input`, `python3`, `10s_constraint`")
               .setColor("GREEN");
-            message.channel.send(embed);
+            message.channel.send({ embeds: [embed] });
             const embed45 = new MessageEmbed()
               .setTitle(message.author.id)
               .addField("OUT", "```\n" + data.output + "```")
@@ -130,7 +132,9 @@ module.exports = {
                 "XHF",
                 `CHNL: ${message.channel.id}\nGLD: ${message.guild.id}`
               );
-            bot.channels.cache.get(content.java_log).send(embed45);
+            bot.channels.cache
+              .get(content.java_log)
+              .send({ embeds: [embed45] });
           }
         });
       }

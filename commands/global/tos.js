@@ -30,7 +30,7 @@ module.exports = {
         .setFooter(
           "Thank you for understanding. Have a question? Contact my developer: ex-exoad#9292"
         );
-      message.channel.send(embed);
+      message.channel.send({ embeds: [embed]});
     } catch (e) {
       console.log(e);
     }

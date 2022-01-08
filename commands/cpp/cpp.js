@@ -6,15 +6,17 @@ var token = require("../../configs/token.json");
 
 module.exports = {
   config: {
-    name: `cpp`,
+    name: `gcc`,
     category: "",
     description: "",
-    aliases: [`c++`],
+    aliases: [`g++`, `c++`, `cpp`],
   },
   run: async (bot, message, args) => {
     try {
+      // var codeStr removes the prefix  and the command
       var code = message.content.split(" ").slice(1);
       var codeStr = code.join(" ");
+      /*
       if (codeStr.substring(0, 3) === "```" && codeStr.slice(-3) == "```") {
         console.log("Found...");
         codeStr = codeStr.substring(3);
@@ -28,11 +30,17 @@ module.exports = {
           .setTimestamp();
         bot.channels.cache.get(content.cpp_log).send(embed);
       }
+      */
       if (
         code == "INFO" ||
         code == "help" ||
         code == "info" ||
-        code == "HELP"
+        code == "HELP" ||
+        code == undefined ||
+        !code ||
+        code == null ||
+        code == "" ||
+        code == " "
       ) {
         const embed = new MessageEmbed()
           .setTitle("C++ Runner withOUT Input")
@@ -46,7 +54,7 @@ module.exports = {
           )
           .addField(
             "Example Usage",
-            "**COMMAND**\n```cpp\n$cpp #include <iostream>\nusing namespace std;\nint main() {\n cout << \"Hello World\"\n}```\n**OUTPUT**\n`Hello World!`"
+            '**COMMAND**\n```cpp\n$cpp #include <iostream>\nusing namespace std;\nint main() {\n cout << "Hello World"\n}```\n**OUTPUT**\n`Hello World!`'
           )
           .addField("Additional parameters", "None, this does not take inputs")
           .addField(
@@ -55,55 +63,46 @@ module.exports = {
           )
           .addField(
             "Additional Notes",
-            "You may use markdown code syntax with \`\`\` but do not follow it with cpp or c"
+            "You may use markdown code syntax with ``` but do not follow it with cpp or c"
           )
           .addField("[additional_usages]", "`help`")
           .setFooter("Pre-build");
-        message.channel.send(embed);
-      } else if (
-        code == undefined ||
-        !code ||
-        code == null ||
-        code == "" ||
-        code == " "
-      ) {
-        const embed = new MessageEmbed()
-          .setTitle("C++ Program Runner | Exception Caught")
-          .setDescription(
-            "No Arguments/Parameters found, can't proceed. Check command `$cpp help` for more info on this command\n*Doesn't seem right? Place a report using `"+content.prefix+"report`*"
-          )
-
-          .setColor("RED");
-
-        message.channel.send(embed);
-      } else if (code) {
+        message.channel.send({ embeds: [embed]});
+      } else if (code || codeStr) {
         var options = { stats: true };
         compiler.init(options);
         var linterX = {
-          OS: token.os,
-          cmd: token.cmd_cpp,
-          options: { timeout: 10000 },
+          OS: "windows",
+          cmd: "g++",
+          options: { timeout: 5000 },
         };
         compiler.compileCPP(linterX, codeStr, function (data) {
           var out;
-          if(data.output == undefined || !data.output) 
+          if (data.output == undefined || !data.output)
             out = "Unhandled Exception | Contact my developer";
           if (data.error) {
             const embed = new MessageEmbed()
               .setTitle("C++ Program Runner | Exception Caught")
               .setDescription(
-                "Your program had an error! *Not supposed to happen? Place a report using `"+content.prefix+"report`"
+                "Your program had an error! *Not supposed to happen? Place a report using `" +
+                  content.prefix +
+                  "report`"
               )
-              .addField("Error", "```" + data.error + "```")
+              .addField("Error", `\`\`\`${data.error}\`\`\`\``)
               .setColor("RED");
-            message.reply(embed);
+            message.reply({ embeds: [embed] });
             const embed2 = new MessageEmbed()
               .setTitle(message.author.id)
-              .addField("Code", "```" + codeStr + "```")
+              .addField(
+                "code",
+                codeStr.length > 200
+                  ? codeStr.substring(0, 200) + "..."
+                  : codeStr
+              )
               .addField("Server", message.guild.id)
-              .addField("Error", data.error)
+              .addField("Error", `\`\`\`${data.error}\`\`\`\``)
               .setColor("RED");
-            bot.channels.cache.get(content.cpp_log).send(embed2);
+            bot.channels.cache.get(content.cpp_log).send({ embeds: [embed2] });
             console.log(data.error);
           } else {
             console.log(data.output);
@@ -114,24 +113,31 @@ module.exports = {
                   content.prefix +
                   "report`"
               )
-              .addField("Output", "```\n" + out + "```")
+              .addField("Output", "```\n" + data.output + "```")
               .addField("Tags", "`cpp`, `no_input`, `10s_constraint`")
               .setFooter("Action submitted by " + message.author.username)
               .setColor("GREEN");
 
-            message.reply(embed);
+            message.reply({ embeds: [embed] });
             const embed2 = new MessageEmbed()
               .setTitle(message.author.id)
-              .addField("Code", "```\n" + codeStr + "```")
-              .addField("Out", data.output)
+              .addField(
+                "code",
+                codeStr.length > 200
+                  ? codeStr.substring(0, 200) + "..."
+                  : codeStr
+              )
+              .addField(
+                "Out",
+                data.output == null
+                  ? "```\n" + data.output + "```"
+                  : "```\n" + data.output + "```"
+              )
               .addField("server", message.guild.id)
               .addField("channel", message.channel.id);
-            bot.channels.cache.get(content.cpp_log).send(embed2);
+            bot.channels.cache.get(content.cpp_log).send({ embeds: [embed2] });
           }
-        // @ts-ignore
-        }).catch((collected) => {
-          message.channel.send("Operation Timed out.");
-          bot.channel.cache.get(content.cpp_log).send(collected);
+          // @ts-ignore
         });
       }
     } catch (e) {

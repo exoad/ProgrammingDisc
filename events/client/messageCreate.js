@@ -1,5 +1,5 @@
-const { Discord, MessageEmbed } = require("discord.js");
-const { fs } = require("fs");
+const { MessageEmbed } = require("discord.js");
+const Discord = require("discord.js");
 const { prefix } = require("../../configs/content.json");
 
 module.exports = async (bot, message) => {

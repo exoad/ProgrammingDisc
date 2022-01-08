@@ -15,20 +15,10 @@ module.exports = {
   },
   run: async (bot, message, args) => {
     try {
-      if (
-        talkedRecently.has(message.author.id)
-      ) {
-        message.channel.send("This command is on a 5 minute cooldown.");
-      } else {
         let filter = (m) => m.author.id === message.author.id;
 
         var code = message.content.split(" ").slice(1);
         var codeStr = code.join(" ");
-        if (codeStr.substring(0, 3) === "```" && codeStr.slice(-3) == "```") {
-          console.log("Found...");
-          codeStr = codeStr.substring(3);
-          codeStr = codeStr.slice(0, -3);
-        }
         if (
           code == "INFO" ||
           code == "help" ||
@@ -68,7 +58,7 @@ module.exports = {
             )
             .addField("[additional_usages]", "`help`")
             .setFooter("Pre-build");
-          message.channel.send(embed);
+          message.channel.send({ emebds: [embed] });
         } else if (
           code == undefined ||
           !code ||
@@ -107,7 +97,7 @@ module.exports = {
             )
             .addField("[additional_usages]", "`help`")
             .setFooter("Pre-build");
-          message.channel.send(embed);
+          message.channel.send({ embeds: [embed] });
         } else {
           var options = { stats: true };
           compiler.init(options);
@@ -121,18 +111,20 @@ module.exports = {
             .setDescription(
               "Enter your inputs for your program below. You have a 10 second window.\n*Program shouldn't have input? Try using the command `" +
                 content.prefix +
-                "cpp`! Or place a report using `"+content.prefix+"report`"
+                "cpp`! Or place a report using `" +
+                content.prefix +
+                "report`"
             )
             .setColor("YELLOW");
 
-          message.channel.send(embed4).then(() => {
+          message.channel.send({ embeds: [embed4] }).then(() => {
             message.channel
               .awaitMessages(filter, {
                 max: 1,
                 time: 10000,
                 errors: ["time"],
               })
-              .then((message) => {
+              .then((message, collected) => {
                 message = message.first();
                 compiler.compileCPPWithInput(
                   linterX,
@@ -142,7 +134,9 @@ module.exports = {
                     const embed = new MessageEmbed()
                       .setTitle("C++ Program Runner (with inputs) | Success!")
                       .setDescription(
-                        "Your program was executed properly!\n*Is this not correct and is an anomaly? Place a report using `"+content.prefix+"report`"
+                        "Your program was executed properly!\n*Is this not correct and is an anomaly? Place a report using `" +
+                          content.prefix +
+                          "report`"
                       )
                       .addField(
                         "OUTPUT (stdout)",
@@ -157,7 +151,7 @@ module.exports = {
                       .setFooter(
                         "Action submitted by " + message.author.username
                       );
-                    message.channel.send(embed);
+                    message.channel.send({ embeds: [embed] });
                   }
                 );
               })
@@ -166,11 +160,6 @@ module.exports = {
               });
           });
         }
-        talkedRecently.add(message.author.id);
-        setTimeout(() => {
-          talkedRecently.delete(message.author.id);
-        }, 60000);
-      }
     } catch (e) {
       console.log(e);
     }

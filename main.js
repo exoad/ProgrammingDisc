@@ -1,9 +1,23 @@
-const { Client, Collection, MessageEmbed } = require("discord.js");
-const bot = new Client();
+const { Collection, MessageEmbed, Intents } = require("discord.js");
+const Discord  = require("discord.js");
+const bot = new Discord.Client({
+  // @ts-ignore
+  intents: [
+    "GUILDS",
+    "GUILD_MESSAGES",
+    "GUILD_MEMBERS",
+    "GUILD_BANS",
+    "GUILD_EMOJIS_AND_STICKERS",
+    "GUILD_MESSAGE_REACTIONS",
+    "GUILD_INVITES",
+  ],
+});
 
 const express = require("express");
 const app = express();
 const port = 8080;
+
+bot.setMaxListeners(20);
 
 app.get("/", (req, res) => res.send("Online."));
 
@@ -14,7 +28,7 @@ const { prefix } = require(`./configs/content.json`);
 [`aliases`, `commands`].forEach((x) => (bot[x] = new Collection()));
 ["command", "events"].forEach((x) => require(`./handlers/${x}`)(bot));
 
-bot.on("message", (message) => {
+bot.on("messageCreate", (message) => {
   if (
     message.content == `<@${bot.user.id}>` ||
     message.content == `<@!${bot.user.id}>`

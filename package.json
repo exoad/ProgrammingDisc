@@ -22,9 +22,10 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "compilex": "^0.7.4",
-    "discord.js": "^12.5.3",
+    "discord.js": "^13.5.0",
     "es-to-primitive": "^1.2.1",
     "express": "^4.17.1",
+    "ezcompilex": "^0.7.4",
     "safe-eval": "^0.4.1",
     "tio.js": "^1.1.0"
   }
