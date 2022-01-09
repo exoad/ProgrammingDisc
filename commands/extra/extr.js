@@ -24,10 +24,7 @@ module.exports = {
           .setDescription(
             "Remove backquotes from your code (remove code syntax in markdown)"
           )
-          .addField(
-            "Supported Fields [parameter]",
-            "`remove_backquotes`"
-          )
+          .addField("Supported Fields [parameter]", "`remove_backquotes`")
           .addField("Usage", "```" + content.prefix + "editor [parameter]```")
           .addField(
             "Example Usage",
@@ -37,7 +34,7 @@ module.exports = {
           )
           .setColor("RANDOM")
           .setTimestamp();
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
       } else if (code == "remove_backquotes") {
         if (codeStr.substring(0, 3) === "```" && codeStr.slice(-3) == "```") {
           console.log("Found...");
@@ -48,9 +45,8 @@ module.exports = {
               "Code Language Viewer | Successfully removed backquotes! (`)"
             )
             .addField("OUTPUT", codeStr)
-            .setFooter("Action requested by " + message.author.username)
             .setColor("GREEN");
-          message.channel.send(embed);
+          message.channel.send({ embeds: [embed] });
           bot.channels.cache.get(content.editor_log).send(embed);
         } else {
           const embed = new MessageEmbed()
@@ -62,16 +58,24 @@ module.exports = {
             )
             .addField("Your Input", code.join(" "))
             .setColor("RED");
-          message.channel.send(embed);
+          message.channel.send({ emebds: [embed] });
           bot.channels.cache.get(content.editor_log).send(embed);
         }
-      } else if(code == "" || code == " " || code == undefined || code == null || !code) {
+      } else if (
+        code == "" ||
+        code == " " ||
+        code == undefined ||
+        code == null ||
+        !code
+      ) {
         const embed = new MessageEmbed()
-        .setTitle("Code Language Viewer | Exception Caught")
-        .setDescription("Hmmm, no arguments and parameters were passed and this command needs arguments! Use `help` after the command to know more about this command!\n *Is this not correct? Contact my developer: ex-exoad#9292*")
-        .setColor("RED")
-        message.channel.send(embed);
-      } 
+          .setTitle("Code Language Viewer | Exception Caught")
+          .setDescription(
+            "Hmmm, no arguments and parameters were passed and this command needs arguments! Use `help` after the command to know more about this command!\n *Is this not correct? Contact my developer: ex-exoad#9292*"
+          )
+          .setColor("RED");
+        message.channel.send({ embeds: [embed] });
+      }
     } catch (e) {
       console.log(e);
     }

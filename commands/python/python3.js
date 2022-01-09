@@ -80,6 +80,9 @@ module.exports = {
         compiler.compilePython(linterX, codeStr, function (data) {
           var checker;
           if (data.error) {
+            var err = data.error
+              .toString()
+              .replaceAll("D:\\zip\\projects\\ProgrammingDisc\\temp\\");
             const embed = new MessageEmbed()
               .setTitle("Python 3 Program Runner | Exception Caught")
               .setDescription(
@@ -87,14 +90,15 @@ module.exports = {
                   content.prefix +
                   "report`*"
               )
-              .addField(
-                "ERROR (template <E> stdout@error<T>[OUT] AT mkdir.cpp:",
-                "```\n" + data.error + "```"
-              )
-              .setColor("RED")
-              .setFooter(
-                "This action has been auto logged and is being automatically repaired if server-sided"
-              );
+              
+                .addField(
+                  "ERROR (template <E> stdout@error<T>[OUT] AT mkdir.cpp:",
+                  "```" + err + "```"
+                )
+                .setColor("RED")
+                .setFooter(
+                  "This action has been auto logged and is being automatically repaired if server-sided"
+                );
             message.channel.send({ embeds: [embed] });
             const embed23 = new MessageEmbed()
               .setTitle(message.author.id)

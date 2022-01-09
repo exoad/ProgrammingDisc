@@ -12,16 +12,32 @@ module.exports = {
   },
   run: async (bot, message, args) => {
     let code = args[0];
-    if (args[0] == "help" || !args[0] || args[0] == null || args[0] == undefined) {
+    if (code == "help" || !code || code == null || code == undefined) {
       const embed4324 = new MessageEmbed()
-      .setTitle("Yttrium Reports")
-      .setDescription("If you found an error or issue witht he bot, use this command to report your issue")
-      .addField("Usage", "```\n"+content.prefix+"report [user_report]```")
-      .addField("[user_report]", "Place your issue here using the format below")
-      .addField("Proper Issue Report Format", "```\nYour Discord: \nBrief Description: \nLanguage: ```")
-      .addField("Additional Notes", "This is a serious command, if you are suspected of using this command maliciously or in an opposing intent, you will be punished")
-      .addField("TOS", "Read additional notes about the services provided using the command `"+content.prefix+"tos`")
-      message.channel.send(embed4324);
+        .setTitle("Yttrium Reports")
+        .setDescription(
+          "If you found an error or issue witht he bot, use this command to report your issue"
+        )
+        .addField("Usage", "```\n" + content.prefix + "report [user_report]```")
+        .addField(
+          "[user_report]",
+          "Place your issue here using the format below"
+        )
+        .addField(
+          "Proper Issue Report Format",
+          "```\nYour Discord: \nBrief Description: \nLanguage: ```"
+        )
+        .addField(
+          "Additional Notes",
+          "This is a serious command, if you are suspected of using this command maliciously or in an opposing intent, you will be punished"
+        )
+        .addField(
+          "TOS",
+          "Read additional notes about the services provided using the command `" +
+            content.prefix +
+            "tos`"
+        );
+      message.channel.send({ embeds: [embed4324] });
     } else {
       if (
         talkedRecently.has(message.author.id) &&
@@ -46,10 +62,9 @@ module.exports = {
             "Additional Help",
             "Type this command with the word `help` to find out more about this command!"
           )
-          .setFooter("Thanks for helping!")
           .setColor("RANDOM");
 
-        message.reply(embed);
+        message.reply({ embeds: [embed] });
 
         // Reacts so the user only have to click the emojis
         message.react("✅").then((r) => {

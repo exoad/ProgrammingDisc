@@ -9,28 +9,16 @@ module.exports = {
     name: `gcc`,
     category: "",
     description: "",
-    aliases: [`g++`, `c++`, `cpp`],
+    aliases: [`g++`, `c++`, `cpp`, `cxx`],
   },
   run: async (bot, message, args) => {
     try {
       // var codeStr removes the prefix  and the command
       var code = message.content.split(" ").slice(1);
       var codeStr = code.join(" ");
-      /*
-      if (codeStr.substring(0, 3) === "```" && codeStr.slice(-3) == "```") {
-        console.log("Found...");
-        codeStr = codeStr.substring(3);
-        codeStr = codeStr.slice(0, -3);
-        const embed = new MessageEmbed()
-          .setTitle(message.author.id)
-          .addField("code", codeStr)
-          .addField("code no", code.join(" "))
-          .addField("guild", message.guild.id)
-          .addField("chnl", message.channel.id)
-          .setTimestamp();
-        bot.channels.cache.get(content.cpp_log).send(embed);
-      }
-      */
+      console.log(codeStr);
+      
+      
       if (
         code == "INFO" ||
         code == "help" ||

@@ -8,10 +8,10 @@ const token = require("../../configs/token.json");
 
 module.exports = {
   config: {
-    name: `icpp`,
+    name: `igcc`,
     category: "",
     description: "",
-    aliases: [``],
+    aliases: [`icpp`, `inputcpp`],
   },
   run: async (bot, message, args) => {
     try {

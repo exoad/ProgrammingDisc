@@ -17,9 +17,11 @@ module.exports = {
         )
         .addField("C++", "```icpp, gcc```")
         .addField("Python3", "```py3```")
-        .addField("Global", "```ping, help, tos, editor, info, report, changelog```")
-        .setFooter("2021-2022");
-      message.channel.send({ embeds: [embed]});
+        .addField(
+          "Global",
+          "```ping, help, tos, editor, info, report```"
+        )
+      message.channel.send({ embeds: [embed] });
     } catch (e) {
       console.log(e);
     }

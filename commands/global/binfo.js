@@ -25,10 +25,8 @@ module.exports = {
           true
         )
         .addField("Languages Supported", "`C++, Python, C`")
-        .setColor("RANDOM")
-        .setFooter(":D")
-        message.channel.send(embed);
-
+        .setColor("RANDOM");
+      message.channel.send({ embeds: [embed] });
     } catch (e) {
       console.log(e);
     }

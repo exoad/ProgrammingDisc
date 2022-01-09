@@ -27,10 +27,7 @@ module.exports = {
           "Punishments",
           "Failure to follow any conduct specified and not specified will result in a ban from the usage of the bot."
         )
-        .setFooter(
-          "Thank you for understanding. Have a question? Contact my developer: ex-exoad#9292"
-        );
-      message.channel.send({ embeds: [embed]});
+      message.channel.send({ embeds: [embed] });
     } catch (e) {
       console.log(e);
     }
