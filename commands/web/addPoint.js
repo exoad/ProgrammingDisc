@@ -12,13 +12,36 @@ module.exports = {
   },
   run: async (bot, message, args) => {
     try {
+      var cs_sections = ["cs", "usaco", "programming", "coding", "code"];
+      var es_sections = ["es", "earth_science", "earth_sci", "earth", "useso"];
+      var nc_sections = ["chem", "chemistry", "usnco"];
+      var am_sections = ["math", "usamo", "maths", "amo"];
+      var bo_sections = ["usabo", "bio", "biology"];
+      var aa_sections = ["aa", "astro", "astronomy", "space", "usaaao"];
+      var ph_sections = ["f=ma", "physics", "physic", "usapho"];
       function sendError() {
         const embed = new MessageEmbed()
           .setTitle("Unable to parse")
           .setDescription("I was unable to parse the desired operation")
           .addField(
             "Usage",
-            "```\n" + content.prefix + "potd [user] [operation] [points]```"
+            "```\n" + content.prefix + "potd [user] [points] [type]```"
+          )
+          .addField(
+            "Cats.",
+            cs_sections.join(", ") +
+              ", " +
+              es_sections.join(", ") +
+              ", " +
+              nc_sections.join(", ") +
+              ", " +
+              am_sections.join(", ") +
+              ", " +
+              bo_sections.join(", ") +
+              ", " +
+              aa_sections.join(", ") +
+              ", " +
+              ph_sections.join(", ")
           )
           .addField(
             "Example Usage",
@@ -37,13 +60,12 @@ module.exports = {
       }
       const db = new Database("potd_points");
       var usr = message.author.id;
-      var cs_sections = ["cs", "usaco", "programming", "coding", "code"];
-      var es_sections = ["es", "earth_science", "earth_sci", "earth", "useso"];
-      var nc_sections = ["chem", "chemistry", "usnco"];
-      var am_sections = ["math", "usamo", "maths", "amo"];
-      var bo_sections = ["usabo", "bio", "biology"];
-      var aa_sections = ["aa", "astro", "astronomy", "space", "usaaao"];
-      var ph_sections = ["f=ma", "physics", "physic", "usapho"];
+
+      if (args[0] == "help") {
+        sendError();
+        return;
+      }
+
       if (
         message.mentions.users.size <= 0 ||
         isNaN(args[1]) ||
@@ -131,34 +153,33 @@ module.exports = {
           var params = db.get(user.id);
           let bruh;
           if (includesInside(cs_sections, sec)) {
-            params.cs_pts += points;
-            bruh = params.cs_pts;
+            db.sum(user.id + ".cs_pts", parseInt(points));
+            bruh = db.get(user.id + ".cs_pts");
           }
           if (includesInside(es_sections, sec)) {
-            params.es_pts += points;
-            bruh = params.es_pts;
+            db.sum(user.id + ".es_pts", parseInt(points));
+            bruh = db.get(user.id + ".es_pts");
           }
           if (includesInside(am_sections, sec)) {
-            params.ma_pts += points;
-            bruh = params.ma_pts;
+            db.sum(user.id + ".ma_pts", parseInt(points));
+            bruh = db.get(user.id + ".ma_pts");
           }
           if (includesInside(bo_sections, sec)) {
-            params.bo_pts += points;
-            bruh = params.bo_pts;
+            db.sum(user.id + ".bo_pts", parseInt(points));
+            bruh = db.get(user.id + ".bo_pts");
           }
           if (includesInside(aa_sections, sec)) {
-            params.aa_pts += points;
-            bruh = params.aa_pts;
+            db.sum(user.id + ".aa_pts", parseInt(points));
+            bruh = db.get(user.id + ".aa_pts");
           }
           if (includesInside(ph_sections, sec)) {
-            params.ph_pts += points;
-            bruh = params.ph_pts;
+            db.sum(user.id + ".ph_pts", parseInt(points));
+            bruh = db.get(user.id + ".ph_pts");
           }
           if (includesInside(nc_sections, sec)) {
-            params.nc_pts += points;
-            bruh = params.nc_pts;
+            db.sum(user.id + ".nc_pts", parseInt(points));
+            bruh = db.get(user.id + ".nc_pts");
           }
-          db.set(user.id, params);
           const embed = new MessageEmbed()
             .setTitle("Added Points!")
             .setDescription(
@@ -172,10 +193,6 @@ module.exports = {
             )
             .addField("User", user.username)
             .addField("Points to add", points)
-            .addField(
-              "They now have this many points in that cat.!",
-              bruh
-            )
             .addField("To Check user profile", content.prefix + "ppt @user")
             .setColor("RANDOM");
           message.channel.send({ embeds: [embed] });
