@@ -24,7 +24,7 @@
     "compilex": "^0.7.4",
     "discord.js": "^13.5.0",
     "es-to-primitive": "^1.2.1",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "ezcompilex": "^0.7.4",
     "safe-eval": "^0.4.1",
     "secure-db": "^1.5.1",
