@@ -7,3 +7,5 @@ An uptodown revitialized version of the original!
 > SEE: https://nvd.nist.gov/vuln/detail/CVE-2023-26121
 > 
 > SEE: https://nvd.nist.gov/vuln/detail/CVE-2023-26122
+
+## ARCHIVED due to security vulns that I am not going to resolve
